@@ -1,0 +1,29 @@
+{
+  "name": "ron",
+  "displayName": "RON",
+  "description": "RON (Rusty Object Notation) support for VS Code",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "ron",
+      "aliases": ["Rusty Object Notation", "ron"],
+      "extensions": [".ron"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "ron",
+      "scopeName": "source.ron",
+      "path": "./syntaxes/ron.tmLanguage.json"
+    }]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xpe/vscode-ron"
+  }
+}

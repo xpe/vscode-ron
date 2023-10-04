@@ -1,0 +1,285 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"fileTypes": [
+		"ron"
+	],
+	"name": "Rusty Object Notation",
+	"patterns": [
+		{
+			"include": "#block-comments"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#gtypes"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#punctuation"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#identifiers"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"comment": "line comments",
+					"name": "comment.line.double-slash.ron",
+					"match": "\\s*//.*"
+				}
+			]
+		},
+		"block-comments": {
+			"patterns": [
+				{
+					"comment": "empty block comments",
+					"name": "comment.block.ron",
+					"match": "/\\*\\*/"
+				},
+				{
+					"comment": "block documentation comments",
+					"name": "comment.block.documentation.ron",
+					"begin": "/\\*\\*",
+					"end": "\\*/",
+					"patterns": [
+						{
+							"include": "#block-comments"
+						}
+					]
+				},
+				{
+					"comment": "block comments",
+					"name": "comment.block.ron",
+					"begin": "/\\*(?!\\*)",
+					"end": "\\*/",
+					"patterns": [
+						{
+							"include": "#block-comments"
+						}
+					]
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"comment": "decimal integers and floats",
+					"name": "constant.numeric.decimal.ron",
+					"match": "\\b\\d[\\d_]*(\\.?)[\\d_]*(?:(E|e)([+-]?)([\\d_]+))?(f32|f64|i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)?\\b",
+					"captures": {
+						"1": {
+							"name": "punctuation.separator.dot.decimal.ron"
+						},
+						"2": {
+							"name": "keyword.operator.exponent.ron"
+						},
+						"3": {
+							"name": "keyword.operator.exponent.sign.ron"
+						},
+						"4": {
+							"name": "constant.numeric.decimal.exponent.mantissa.ron"
+						},
+						"5": {
+							"name": "entity.name.type.numeric.ron"
+						}
+					}
+				},
+				{
+					"comment": "hexadecimal integers",
+					"name": "constant.numeric.hex.ron",
+					"match": "\\b0x[\\da-fA-F_]+(i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)?\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.numeric.ron"
+						}
+					}
+				},
+				{
+					"comment": "octal integers",
+					"name": "constant.numeric.oct.ron",
+					"match": "\\b0o[0-7_]+(i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)?\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.numeric.ron"
+						}
+					}
+				},
+				{
+					"comment": "binary integers",
+					"name": "constant.numeric.bin.ron",
+					"match": "\\b0b[01_]+(i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)?\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.numeric.ron"
+						}
+					}
+				},
+				{
+					"comment": "booleans",
+					"name": "constant.language.bool.ron",
+					"match": "\\b(?:true|false)\\b"
+				}
+			]
+		},
+		"escapes": {
+			"comment": "escapes: ASCII, byte, Unicode, quote, regex",
+			"name": "constant.character.escape.ron",
+			"match": "(\\\\)(?:(?:(x[0-7][0-7a-fA-F])|(u(\\{)[\\da-fA-F]{4,6}(\\}))|.))",
+			"captures": {
+				"1": {
+					"name": "constant.character.escape.backslash.ron"
+				},
+				"2": {
+					"name": "constant.character.escape.bit.ron"
+				},
+				"3": {
+					"name": "constant.character.escape.unicode.ron"
+				},
+				"4": {
+					"name": "constant.character.escape.unicode.punctuation.ron"
+				},
+				"5": {
+					"name": "constant.character.escape.unicode.punctuation.ron"
+				}
+			}
+		},
+		"gtypes": {
+			"patterns": [
+				{
+					"comment": "option types",
+					"name": "entity.name.type.option.ron",
+					"match": "\\b(?:Some|None)\\b"
+				}
+			]
+		},
+		"punctuation": {
+			"patterns": [
+				{
+					"comment": "comma",
+					"name": "punctuation.comma.ron",
+					"match": ","
+				},
+				{
+					"comment": "curly braces",
+					"name": "punctuation.brackets.curly.ron",
+					"match": "[{}]"
+				},
+				{
+					"comment": "parentheses, round brackets",
+					"name": "punctuation.brackets.round.ron",
+					"match": "[()]"
+				},
+				{
+					"comment": "semicolon",
+					"name": "punctuation.semi.ron",
+					"match": ";"
+				},
+				{
+					"comment": "square brackets",
+					"name": "punctuation.brackets.square.ron",
+					"match": "[\\[\\]]"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"comment": "double-quoted strings and byte strings",
+					"name": "string.quoted.double.ron",
+					"begin": "(b?)(\")",
+					"beginCaptures": {
+						"1": {
+							"name": "string.quoted.byte.raw.ron"
+						},
+						"2": {
+							"name": "punctuation.definition.string.ron"
+						}
+					},
+					"end": "\"",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.ron"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#escapes"
+						}
+					]
+				},
+				{
+					"comment": "double-quoted raw strings and raw byte strings",
+					"name": "string.quoted.double.ron",
+					"begin": "(b?r)(#*)(\")",
+					"beginCaptures": {
+						"1": {
+							"name": "string.quoted.byte.raw.ron"
+						},
+						"2": {
+							"name": "punctuation.definition.string.raw.ron"
+						},
+						"3": {
+							"name": "punctuation.definition.string.ron"
+						}
+					},
+					"end": "(\")(\\2)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.ron"
+						},
+						"2": {
+							"name": "punctuation.definition.string.raw.ron"
+						}
+					}
+				},
+				{
+					"comment": "characters and bytes",
+					"name": "string.quoted.single.char.ron",
+					"begin": "(b)?(')",
+					"beginCaptures": {
+						"1": {
+							"name": "string.quoted.byte.raw.ron"
+						},
+						"2": {
+							"name": "punctuation.definition.char.ron"
+						}
+					},
+					"end": "'",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.char.ron"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#escapes"
+						}
+					]
+				}
+			]
+		},
+		"identifiers": {
+			"patterns": [
+				{
+					"comment": "types: struct or enum",
+					"name": "entity.name.type.ron",
+					"match": "\\b(?:[A-Z_][a-zA-Z0-9_]*)\\b"
+				},
+				{
+					"comment": "entity.name.field.ron",
+					"name": "entity.name.field.ron",
+					"match": "\\b(?:[a-z_][a-zA-Z0-9_]*)\\b"
+				}
+			]
+		}
+	},
+	"scopeName": "source.ron"
+}
