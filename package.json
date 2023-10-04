@@ -22,6 +22,7 @@
       "path": "./syntaxes/ron.tmLanguage.json"
     }]
   },
+  "publisher": "made-by",
   "repository": {
     "type": "git",
     "url": "https://github.com/xpe/vscode-ron"
